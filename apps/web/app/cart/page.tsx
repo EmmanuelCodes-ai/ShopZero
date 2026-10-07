@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { SiteHeader } from "../../components/site-header";
 import { useAuth } from "../../context/auth-context";
+import { IconShield, IconTruck, IconReturn, IconBadge } from "../../components/icons";
 
 interface CartItem {
   id: string;
@@ -23,13 +24,13 @@ interface CartItem {
 const INITIAL_CART: CartItem[] = [
   {
     id: "C-01",
-    title: "Wireless Noise-Cancelling Over-Ear Headphones Pro",
+    title: "Sony WH-1000XM5 Wireless Noise-Cancelling Headphones Pro",
     category: "Electronics",
     price: 48900,
     priceStr: "₦48,900",
     wasPrice: 65000,
     wasStr: "₦65,000",
-    img: "/products/headphones.jpg",
+    img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80",
     qty: 1,
     inStock: true,
     discount: "25% OFF",
@@ -37,13 +38,13 @@ const INITIAL_CART: CartItem[] = [
   },
   {
     id: "C-02",
-    title: "Everyday Air Fryer 5L Digital Touchscreen with 8 Presets",
-    category: "Home & Living",
+    title: "Digital Touchscreen Air Fryer 5.5L with 8 Fast Presets",
+    category: "Home & Kitchen",
     price: 59500,
     priceStr: "₦59,500",
     wasPrice: 72000,
     wasStr: "₦72,000",
-    img: "/products/airfryer.jpg",
+    img: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&auto=format&fit=crop&q=80",
     qty: 1,
     inStock: true,
     discount: "17% OFF",
@@ -51,17 +52,17 @@ const INITIAL_CART: CartItem[] = [
   },
   {
     id: "C-03",
-    title: "Le Voyage Premium Italian Leather Handbag (Caramel Tan)",
-    category: "Fashion",
+    title: "Le Voyage Handcrafted Italian Leather Crossbody Bag",
+    category: "Fashion & Style",
     price: 28750,
     priceStr: "₦28,750",
     wasPrice: 39000,
     wasStr: "₦39,000",
-    img: "/products/bag.jpg",
+    img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&auto=format&fit=crop&q=80",
     qty: 2,
     inStock: true,
     discount: "26% OFF",
-    seller: "Le Voyage Official",
+    seller: "Le Voyage Lagos",
   },
 ];
 
@@ -137,16 +138,20 @@ export default function CartPage() {
     () => items.reduce((sum, i) => sum + i.price * i.qty, 0),
     [items]
   );
+  const totalItemCount = useMemo(
+    () => items.reduce((s, i) => s + i.qty, 0),
+    [items]
+  );
   const deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
   const discount = couponApplied ? Math.round(subtotal * 0.1) : 0;
   const total = subtotal + deliveryFee - discount;
 
   const applyCoupon = () => {
-    if (coupon.trim().toUpperCase() === "SHOPZERO10") {
+    if (coupon.trim().toUpperCase() === "SHOPZERO10" || coupon.trim().toUpperCase() === "WELCOME2K") {
       setCouponApplied(true);
       setCouponError("");
     } else {
-      setCouponError("Invalid coupon code. Try SHOPZERO10.");
+      setCouponError("Invalid coupon code. Try WELCOME2K or SHOPZERO10.");
       setCouponApplied(false);
     }
   };
@@ -162,93 +167,116 @@ export default function CartPage() {
   return (
     <>
       <SiteHeader />
-      <main className="cart-page">
-        {/* Header */}
-        <div className="cart-page-header">
-          <div className="cart-header-inner">
-            <nav className="breadcrumb" aria-label="Breadcrumb">
-              <a href="/">Home</a>
-              <span>/</span>
-              <strong>Shopping Cart</strong>
-            </nav>
-            <h1>Shopping Cart <span className="cart-count-badge">{items.reduce((s, i) => s + i.qty, 0)}</span></h1>
+      <main className="cart-page-container">
+        {/* Breadcrumb & Header */}
+        <div className="cart-page-hero-bar">
+          <nav className="breadcrumb-nav" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span className="breadcrumb-sep">/</span>
+            <strong>Shopping Cart</strong>
+          </nav>
+          <div className="cart-title-row">
+            <h1>
+              Review Your Cart
+              <span className="cart-count-pill">{totalItemCount} Items</span>
+            </h1>
+            <span className="escrow-safe-badge">
+              <IconShield size={16} /> 100% Escrow Protected Checkout
+            </span>
           </div>
         </div>
 
         {items.length === 0 ? (
           /* Empty State */
-          <div className="cart-empty">
-            <span>🛒</span>
-            <h2>Your cart is empty</h2>
-            <p>Looks like you haven't added anything yet. Start shopping!</p>
-            <a href="/" className="cart-checkout-btn">Start Shopping</a>
+          <div className="cart-empty-state-card">
+            <div className="empty-cart-icon-wrap">🛒</div>
+            <h2>Your shopping cart is currently empty</h2>
+            <p>Explore today&apos;s flash deals and top verified Nigerian stores.</p>
+            <a href="/" className="empty-cart-cta-btn">
+              ⚡ Start Shopping Deals Now
+            </a>
           </div>
         ) : (
-          <div className="cart-layout">
-            {/* Left: Items */}
-            <div className="cart-items-col">
-              {/* Free delivery banner */}
-              {subtotal < FREE_DELIVERY_THRESHOLD && (
-                <div className="cart-delivery-banner">
-                  🚚 Add{" "}
-                  <strong>{formatNaira(FREE_DELIVERY_THRESHOLD - subtotal)}</strong>{" "}
-                  more to get <strong>FREE delivery</strong>!
-                  <div className="cart-delivery-progress">
-                    <div
-                      className="cart-delivery-fill"
-                      style={{ width: `${Math.min(100, (subtotal / FREE_DELIVERY_THRESHOLD) * 100)}%` }}
-                    />
+          <div className="cart-main-grid">
+            {/* Left Column: Cart Items List */}
+            <div className="cart-items-column">
+              {/* Free Delivery Tracker */}
+              <div className={`delivery-tracker-banner ${subtotal >= FREE_DELIVERY_THRESHOLD ? "unlocked" : ""}`}>
+                {subtotal < FREE_DELIVERY_THRESHOLD ? (
+                  <>
+                    <div className="tracker-text-row">
+                      <span>🚚 Add <strong>{formatNaira(FREE_DELIVERY_THRESHOLD - subtotal)}</strong> more to unlock <strong>FREE Express Delivery</strong>!</span>
+                      <strong className="threshold-tag">{Math.round((subtotal / FREE_DELIVERY_THRESHOLD) * 100)}%</strong>
+                    </div>
+                    <div className="delivery-progress-track">
+                      <div
+                        className="delivery-progress-fill"
+                        style={{ width: `${Math.min(100, (subtotal / FREE_DELIVERY_THRESHOLD) * 100)}%` }}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className="unlocked-text-flex">
+                    <span className="confetti-emoji">🎉</span>
+                    <span><strong>Congratulations!</strong> You&apos;ve unlocked <strong>FREE Express Delivery</strong> to your doorstep.</span>
                   </div>
-                </div>
-              )}
-              {subtotal >= FREE_DELIVERY_THRESHOLD && (
-                <div className="cart-delivery-banner free">
-                  🎉 You qualify for <strong>FREE delivery</strong>!
-                </div>
-              )}
+                )}
+              </div>
 
-              <div className="cart-items-list">
+              {/* Items Card */}
+              <div className="cart-items-wrapper">
                 {items.map((item) => (
                   <article
                     key={item.id}
-                    className={`cart-item ${removedId === item.id ? "removing" : ""}`}
+                    className={`luxury-cart-item ${removedId === item.id ? "fade-out-removing" : ""}`}
                   >
-                    <div className="cart-item-img-wrap">
+                    <div className="cart-thumb-box">
                       <img src={item.img} alt={item.title} />
-                      <span className="cart-item-discount-badge">{item.discount}</span>
+                      <span className="thumb-discount-tag">{item.discount}</span>
                     </div>
 
-                    <div className="cart-item-details">
-                      <span className="cart-item-category">{item.category}</span>
-                      <h3>{item.title}</h3>
-                      <span className="cart-item-seller">Sold by: {item.seller}</span>
+                    <div className="cart-item-info">
+                      <div className="item-meta-top">
+                        <span className="item-category-pill">{item.category}</span>
+                        <span className="item-seller-pill">🛡️ {item.seller}</span>
+                      </div>
 
-                      <div className="cart-item-bottom">
-                        <div className="cart-price-group">
-                          <strong>{formatNaira(item.price * item.qty)}</strong>
-                          {item.qty > 1 && (
-                            <small>{item.priceStr} each</small>
-                          )}
-                          <del>{item.wasStr}</del>
+                      <h3 className="item-title">{item.title}</h3>
+
+                      <div className="item-bottom-controls-row">
+                        <div className="item-price-stack">
+                          <strong className="item-main-price">{formatNaira(item.price * item.qty)}</strong>
+                          <div className="item-price-subtext">
+                            {item.qty > 1 && <span className="unit-price">{item.priceStr} each</span>}
+                            <del className="item-was-price">{item.wasStr}</del>
+                          </div>
                         </div>
 
-                        <div className="cart-item-controls">
-                          <div className="cart-qty-control">
+                        <div className="item-actions-cluster">
+                          <div className="luxury-qty-stepper">
                             <button
                               aria-label="Decrease quantity"
                               onClick={() => updateQty(item.id, -1)}
                               disabled={item.qty <= 1}
-                            >−</button>
-                            <span>{item.qty}</span>
+                              type="button"
+                            >
+                              −
+                            </button>
+                            <span className="qty-number">{item.qty}</span>
                             <button
                               aria-label="Increase quantity"
                               onClick={() => updateQty(item.id, 1)}
-                            >+</button>
+                              type="button"
+                            >
+                              +
+                            </button>
                           </div>
+
                           <button
-                            className="cart-remove-btn"
+                            className="item-remove-trigger-btn"
                             onClick={() => removeItem(item.id)}
                             aria-label="Remove item"
+                            type="button"
                           >
                             🗑 Remove
                           </button>
@@ -259,73 +287,112 @@ export default function CartPage() {
                 ))}
               </div>
 
-              {/* Continue shopping */}
-              <a href="/" className="cart-continue-link">← Continue Shopping</a>
+              {/* Footer row underneath items */}
+              <div className="cart-items-footer-nav">
+                <a href="/" className="continue-shopping-anchor">
+                  ← Continue Shopping
+                </a>
+                <span className="cart-verified-security-text">
+                  🔒 Bank-grade 256-bit encryption on all orders
+                </span>
+              </div>
             </div>
 
-            {/* Right: Summary */}
-            <aside className="cart-summary-col">
-              <div className="cart-summary-card">
-                <h2>Order Summary</h2>
+            {/* Right Column: Order Summary & Coupon */}
+            <aside className="cart-summary-sidebar">
+              <div className="luxury-order-summary-card">
+                <h2 className="summary-card-title">Order Summary</h2>
 
-                <div className="cart-summary-rows">
-                  <div className="cart-summary-row">
-                    <span>Subtotal ({items.reduce((s, i) => s + i.qty, 0)} items)</span>
-                    <strong>{formatNaira(subtotal)}</strong>
+                <div className="summary-rows-stack">
+                  <div className="summary-row">
+                    <span className="row-label">Subtotal ({totalItemCount} items)</span>
+                    <span className="row-val">{formatNaira(subtotal)}</span>
                   </div>
-                  <div className="cart-summary-row">
-                    <span>Delivery Fee</span>
+
+                  <div className="summary-row">
+                    <span className="row-label">Delivery Fee</span>
                     {deliveryFee === 0 ? (
-                      <strong className="cart-free-tag">FREE</strong>
+                      <span className="free-delivery-pill">FREE</span>
                     ) : (
-                      <strong>{formatNaira(deliveryFee)}</strong>
+                      <span className="row-val">{formatNaira(deliveryFee)}</span>
                     )}
                   </div>
+
                   {couponApplied && (
-                    <div className="cart-summary-row discount-row">
-                      <span>Coupon Discount (10%)</span>
-                      <strong>−{formatNaira(discount)}</strong>
+                    <div className="summary-row discount-applied-row">
+                      <span className="row-label">Coupon Discount (10%)</span>
+                      <span className="row-val discount-val">−{formatNaira(discount)}</span>
                     </div>
                   )}
-                  <div className="cart-summary-divider" />
-                  <div className="cart-summary-row total-row">
-                    <span>Total</span>
-                    <strong>{formatNaira(total)}</strong>
+
+                  <div className="summary-divider-line" />
+
+                  <div className="summary-row total-highlight-row">
+                    <span className="total-label">Grand Total</span>
+                    <div className="total-price-stack">
+                      <strong className="total-amount">{formatNaira(total)}</strong>
+                      <small className="vat-included-sub">VAT &amp; Escrow included</small>
+                    </div>
                   </div>
                 </div>
 
-                {/* Coupon */}
-                <div className="cart-coupon-section">
-                  <label htmlFor="coupon-input">Have a coupon?</label>
-                  <div className="cart-coupon-row">
+                {/* Coupon Input Area */}
+                <div className="summary-coupon-box">
+                  <label htmlFor="cart-coupon-input" className="coupon-box-label">
+                    Have a promo voucher?
+                  </label>
+                  <div className="coupon-input-group">
                     <input
-                      id="coupon-input"
+                      id="cart-coupon-input"
                       type="text"
-                      placeholder="Enter code (e.g. SHOPZERO10)"
+                      placeholder="e.g. WELCOME2K"
                       value={coupon}
-                      onChange={(e) => { setCoupon(e.target.value); setCouponError(""); }}
+                      onChange={(e) => {
+                        setCoupon(e.target.value);
+                        setCouponError("");
+                      }}
                       disabled={couponApplied}
                     />
                     <button
-                      className="cart-coupon-btn"
+                      className={`coupon-apply-btn ${couponApplied ? "applied" : ""}`}
                       onClick={applyCoupon}
                       disabled={couponApplied || !coupon.trim()}
+                      type="button"
                     >
                       {couponApplied ? "✓ Applied" : "Apply"}
                     </button>
                   </div>
-                  {couponError && <p className="cart-coupon-error">{couponError}</p>}
-                  {couponApplied && <p className="cart-coupon-success">✓ Coupon applied — 10% off!</p>}
+                  {couponError && <p className="coupon-feedback-error">⚠️ {couponError}</p>}
+                  {couponApplied && <p className="coupon-feedback-success">🎉 Voucher applied successfully!</p>}
                 </div>
 
-                <button className="cart-checkout-btn" onClick={handleCheckout}>
-                  {user ? "Proceed to Checkout" : "Sign In to Checkout"}
+                {/* Checkout CTA */}
+                <button
+                  className="primary-checkout-btn"
+                  onClick={handleCheckout}
+                  type="button"
+                >
+                  <span>{user ? "Proceed to Secure Checkout →" : "Sign In to Checkout →"}</span>
                 </button>
 
-                <div className="cart-trust-badges">
-                  <span>🔒 Secure Checkout</span>
-                  <span>↩ 7-Day Returns</span>
-                  <span>✅ 100% Genuine</span>
+                {/* Trust Badges in Summary */}
+                <div className="summary-trust-badges-grid">
+                  <div className="summary-trust-item">
+                    <IconShield size={18} />
+                    <span>Escrow Protected</span>
+                  </div>
+                  <div className="summary-trust-item">
+                    <IconReturn size={18} />
+                    <span>7-Day Easy Returns</span>
+                  </div>
+                  <div className="summary-trust-item">
+                    <IconBadge size={18} />
+                    <span>100% Genuine</span>
+                  </div>
+                  <div className="summary-trust-item">
+                    <IconTruck size={18} />
+                    <span>Fast Delivery</span>
+                  </div>
                 </div>
               </div>
             </aside>
