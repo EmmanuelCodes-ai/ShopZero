@@ -1,0 +1,7 @@
+{
+  "name": "@shop-zero/whatsapp",
+  "private": true,
+  "scripts": { "dev": "tsx watch src/index.ts", "start": "tsx src/index.ts" },
+  "dependencies": { "@shop-zero/database": "workspace:*", "@shop-zero/commerce": "workspace:*", "express": "^4.21.2" },
+  "devDependencies": { "@types/express": "^5.0.0", "tsx": "^4.19.2", "typescript": "^5.7.2" }
+}

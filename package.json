@@ -1,0 +1,12 @@
+{
+  "name": "shop-zero",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev:web": "pnpm --filter @shop-zero/web dev",
+    "dev:whatsapp": "pnpm --filter @shop-zero/whatsapp dev",
+    "db:generate": "pnpm --filter @shop-zero/database generate",
+    "db:migrate": "pnpm --filter @shop-zero/database migrate"
+  },
+  "devDependencies": { "typescript": "^5.7.2" }
+}

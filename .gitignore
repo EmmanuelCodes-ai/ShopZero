@@ -1,0 +1,30 @@
+# ── Dependencies ──────────────────────────────────────────
+node_modules
+.pnpm-store
+
+# ── Build outputs ─────────────────────────────────────────
+.next
+dist
+build
+out
+
+# ── Environment variables (NEVER commit these) ────────────
+.env
+.env.*
+!.env.example
+*/.env
+*/.env.*
+!*/.env.example
+
+# ── Prisma ────────────────────────────────────────────────
+packages/database/generated
+
+# ── Logs ──────────────────────────────────────────────────
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# ── OS & Editor ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/settings.json

@@ -1,0 +1,6 @@
+{
+  "name": "@shop-zero/commerce",
+  "private": true,
+  "version": "0.1.0",
+  "dependencies": { "@shop-zero/database": "workspace:*" }
+}

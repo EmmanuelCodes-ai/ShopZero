@@ -1,0 +1,33 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Runs every 5 days at 08:00 UTC — well within the 7-day pause window
+    - cron: "0 8 */5 * *"
+  workflow_dispatch: # Allow manual trigger from GitHub Actions UI
+
+jobs:
+  ping-database:
+    name: Ping Supabase DB
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Ping Supabase via psql
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          # Install psql client
+          sudo apt-get install -y postgresql-client --quiet
+
+          # Extract connection parts from DATABASE_URL and ping with a simple query
+          echo "SELECT 1 AS alive;" | psql "$DATABASE_URL" --no-password --quiet
+
+          echo "✅ Supabase database pinged successfully at $(date -u)"
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Failed to reach Supabase database. It may still be paused."
+          echo "Visit https://supabase.com/dashboard to restore it manually."
+          exit 1
