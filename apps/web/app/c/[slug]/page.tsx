@@ -2,7 +2,7 @@
 
 import { use, useState, useEffect, useMemo } from "react";
 import { SiteHeader } from "../../../components/site-header";
-import { IconSearch } from "../../../components/icons";
+import { IconSearch, IconHeart, IconShield } from "../../../components/icons";
 
 interface ProductItem {
   id: string;
@@ -567,8 +567,9 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
 
   const [selectedSubcat, setSelectedSubcat] = useState("All");
   const [sortBy, setSortBy] = useState<"featured" | "price-low" | "price-high" | "rating">("featured");
-  const [maxPrice, setMaxPrice] = useState(300000);
+  const [maxPrice, setMaxPrice] = useState(3000000);
   const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
+  const [wishlistIds, setWishlistIds] = useState<Record<string, boolean>>({});
   const [dbProducts, setDbProducts] = useState<ProductItem[] | null>(null);
 
   // Fetch real products from API
@@ -614,6 +615,10 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
     return items;
   }, [categoryProducts, selectedSubcat, maxPrice, sortBy]);
 
+  const toggleWishlist = (id: string) => {
+    setWishlistIds((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
   const handleAddToCart = async (id: string) => {
     setAddedItems((prev) => ({ ...prev, [id]: true }));
     setTimeout(() => {
@@ -636,11 +641,11 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
       <SiteHeader />
       <main className="category-page-container">
         {/* Breadcrumb */}
-        <nav className="breadcrumb" aria-label="Breadcrumb">
+        <nav className="breadcrumb-nav" aria-label="Breadcrumb">
           <a href="/">Home</a>
-          <span>/</span>
+          <span className="breadcrumb-sep">/</span>
           <a href="/#categories">Categories</a>
-          <span>/</span>
+          <span className="breadcrumb-sep">/</span>
           <strong>{currentMeta.title}</strong>
         </nav>
 
@@ -651,6 +656,9 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
             <h1>{currentMeta.title}</h1>
             <p>{currentMeta.desc}</p>
           </div>
+          <div className="search-escrow-pill">
+            <IconShield size={18} /> Official Stores &amp; Escrow Guarantee
+          </div>
         </div>
 
         {/* Subcategory Pills */}
@@ -660,6 +668,7 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
               key={sub}
               className={`subcat-pill ${selectedSubcat === sub ? "active" : ""}`}
               onClick={() => setSelectedSubcat(sub)}
+              type="button"
             >
               {sub}
             </button>
@@ -670,50 +679,64 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
         <div className="cat-layout-grid">
           {/* Sidebar Filters */}
           <aside className="cat-sidebar">
-            <div className="filter-box">
-              <h3>Filter Products</h3>
+            <div className="search-sidebar-card">
+              <div className="search-filter-header">
+                <h3>Filter Products</h3>
+                <button
+                  className="reset-filters-btn"
+                  onClick={() => {
+                    setSelectedSubcat("All");
+                    setMaxPrice(3000000);
+                    setSortBy("featured");
+                  }}
+                  type="button"
+                >
+                  Reset All
+                </button>
+              </div>
 
               {/* Price Filter */}
-              <div className="filter-group">
-                <label htmlFor="price-range">
+              <div className="search-filter-section">
+                <span className="filter-section-title">
                   Max Price: <strong>₦{maxPrice.toLocaleString()}</strong>
-                </label>
+                </span>
                 <input
                   id="price-range"
                   type="range"
-                  min={10000}
-                  max={300000}
+                  min={5000}
+                  max={3000000}
                   step={5000}
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
+                  className="price-range-slider"
                 />
-                <div className="range-labels">
-                  <span>₦10,000</span>
-                  <span>₦300,000+</span>
+                <div className="range-bounds-row">
+                  <span>₦5,000</span>
+                  <span>₦3,000,000</span>
                 </div>
               </div>
 
               {/* Delivery Filter */}
-              <div className="filter-group">
-                <span className="filter-title">Delivery Option</span>
-                <label className="filter-check">
+              <div className="search-filter-section">
+                <span className="filter-section-title">Delivery Option</span>
+                <label className="checkbox-filter-label">
                   <input type="checkbox" defaultChecked />
                   <span>Free Doorstep Delivery</span>
                 </label>
-                <label className="filter-check">
+                <label className="checkbox-filter-label" style={{ marginTop: "8px" }}>
                   <input type="checkbox" defaultChecked />
                   <span>Express 24h Shipping</span>
                 </label>
               </div>
 
               {/* Rating Filter */}
-              <div className="filter-group">
-                <span className="filter-title">Customer Rating</span>
-                <label className="filter-check">
+              <div className="search-filter-section">
+                <span className="filter-section-title">Customer Rating</span>
+                <label className="checkbox-filter-label">
                   <input type="checkbox" />
                   <span>★ 4.5 &amp; above</span>
                 </label>
-                <label className="filter-check">
+                <label className="checkbox-filter-label" style={{ marginTop: "8px" }}>
                   <input type="checkbox" />
                   <span>★ 4.0 &amp; above</span>
                 </label>
@@ -724,12 +747,12 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
           {/* Product Results */}
           <section className="cat-products-area">
             {/* Sort & Count Header */}
-            <div className="results-header-bar">
-              <span className="results-count">
+            <div className="search-controls-bar">
+              <span className="results-badge-text">
                 Showing <strong>{filteredProducts.length}</strong> items in <em>{currentMeta.title}</em>
               </span>
 
-              <div className="sort-box">
+              <div className="sort-select-wrap">
                 <label htmlFor="sort-select">Sort by:</label>
                 <select
                   id="sort-select"
@@ -746,57 +769,75 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
 
             {/* Products Grid */}
             {filteredProducts.length > 0 ? (
-              <div className="product-grid">
+              <div className="products-modern-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
                 {filteredProducts.map((p) => (
-                  <article className="product" key={p.id}>
-                    <div className="product-image">
-                      <span className="badge">-{p.discount}</span>
+                  <article className="luxury-product-card" key={p.id}>
+                    <div className="card-image-box">
+                      <span className="discount-badge-pill">-{p.discount}</span>
+                      <button
+                        className={`wishlist-heart-btn ${wishlistIds[p.id] ? "active" : ""}`}
+                        onClick={() => toggleWishlist(p.id)}
+                        aria-label="Add to wishlist"
+                        type="button"
+                      >
+                        <IconHeart size={18} fill={wishlistIds[p.id] ? "#f43f5e" : "none"} />
+                      </button>
                       <img src={p.img} alt={p.title} loading="lazy" />
+                      <span className="seller-verified-pill">🛡️ {p.brand} Official</span>
                     </div>
-                    <h3>{p.title}</h3>
-                    <div className="product-price">
-                      <strong>{p.priceStr}</strong>
-                      <del>{p.wasStr}</del>
+
+                    <div className="card-content-box">
+                      <div className="rating-pill-row">
+                        <StarRating rating={p.rating} />
+                        <span className="rating-score">{p.rating}</span>
+                        <span className="review-count">({p.reviews})</span>
+                      </div>
+
+                      <h3 className="product-title-text" title={p.title}>
+                        {p.title}
+                      </h3>
+
+                      <div className="price-display-row">
+                        <strong className="sale-price">{p.priceStr}</strong>
+                        <del className="was-price">{p.wasStr}</del>
+                      </div>
+
+                      <button
+                        className={`cart-action-btn ${addedItems[p.id] ? "added" : ""}`}
+                        onClick={() => handleAddToCart(p.id)}
+                        type="button"
+                      >
+                        {addedItems[p.id] ? "✓ Added to Cart!" : "Add to Cart"}
+                      </button>
                     </div>
-                    <p className="rating">
-                      <StarRating rating={p.rating} />
-                      <span className="rating-num">{p.rating}</span>
-                      <small>({p.reviews})</small>
-                    </p>
-                    <button
-                      onClick={() => handleAddToCart(p.id)}
-                      style={addedItems[p.id] ? { background: "#15803d", color: "#fff", borderColor: "#15803d" } : undefined}
-                    >
-                      {addedItems[p.id] ? "✓ Added to Cart" : "Add to cart"}
-                    </button>
                   </article>
                 ))}
               </div>
             ) : !categoryHasProducts ? (
-              <div className="empty-products-state">
-                <span className="empty-icon">📦</span>
-                <h3>No Items Available</h3>
+              <div className="search-empty-state">
+                <div className="empty-search-icon">📦</div>
+                <h2>No Items Available in {currentMeta.title}</h2>
                 <p>
-                  We don't have any products listed in <strong>{currentMeta.title}</strong> yet.
-                  Our merchants are stocking up — check back soon!
+                  Our verified merchants are restocking this department right now. Please check back shortly or explore other categories.
                 </p>
-                <a href="/" className="primary-btn" style={{ display: "inline-block", textDecoration: "none" }}>
-                  Back to Homepage
+                <a href="/" className="empty-home-btn">
+                  ⚡ Back to Marketplace Home
                 </a>
               </div>
             ) : (
-              <div className="empty-products-state">
-                <span className="empty-icon"><IconSearch size={40} /></span>
-                <h3>No products match your current filters</h3>
+              <div className="search-empty-state">
+                <div className="empty-search-icon">🔍</div>
+                <h2>No products match your current filters</h2>
                 <p>Try increasing your price range or selecting <strong>All</strong> subcategories.</p>
                 <button
-                  className="primary-btn"
+                  className="empty-home-btn"
                   onClick={() => {
                     setSelectedSubcat("All");
-                    setMaxPrice(300000);
+                    setMaxPrice(3000000);
                   }}
+                  type="button"
                 >
-                  Reset Filters
+                  Reset Category Filters
                 </button>
               </div>
             )}
@@ -804,37 +845,60 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="footer-inner">
-          <div className="footer-brand">
-            <a className="logo" href="/">SHOP<span>ZERO</span></a>
-            <p>Nigeria's favourite multi-category marketplace. Big brands, genuine products, and fast delivery — all in one place.</p>
+      {/* ── Global Luxury Footer ── */}
+      <footer className="luxury-footer">
+        <div className="footer-inner-grid">
+          <div className="footer-brand-column">
+            <div className="brand-logo-text footer-brand-logo">
+              SHOP<span>ZERO</span>
+            </div>
+            <p className="footer-tagline-text">
+              Nigeria&apos;s leading secure marketplace. Discover over 150,000 verified genuine products from vetted merchants with automated escrow protection.
+            </p>
+            <div className="footer-badges-list">
+              <span className="payment-chip">🔒 Escrow Protected</span>
+              <span className="payment-chip">💳 Mastercard</span>
+              <span className="payment-chip">💳 Visa</span>
+              <span className="payment-chip">💳 Verve</span>
+              <span className="payment-chip">⚡ Paystack</span>
+            </div>
           </div>
-          <div className="footer-col">
-            <h4>Shop</h4>
-            <a href="/c/electronics">Electronics</a>
-            <a href="/c/fashion">Fashion</a>
-            <a href="/c/home-living">Home &amp; Living</a>
-            <a href="/c/groceries">Groceries</a>
+
+          <div className="footer-links-column">
+            <h4>Shop Categories</h4>
+            <a href="/c/electronics">Electronics &amp; Gadgets</a>
+            <a href="/c/phones-tablets">Phones &amp; Tablets</a>
+            <a href="/c/fashion">Fashion &amp; Apparel</a>
+            <a href="/c/home-living">Home &amp; Kitchen</a>
+            <a href="/c/groceries">Groceries &amp; Foodstuff</a>
+            <a href="/deals">Flash Sale Deals</a>
           </div>
-          <div className="footer-col">
-            <h4>Account</h4>
+
+          <div className="footer-links-column">
+            <h4>Customer Service</h4>
             <a href="/account">My Account</a>
-            <a href="/orders">My Orders</a>
-            <a href="/wishlist">Wishlist</a>
-            <a href="/cart">Cart</a>
+            <a href="/orders">Track Your Order</a>
+            <a href="/wishlist">Saved Wishlist</a>
+            <a href="/cart">Shopping Cart</a>
+            <a href="/returns">Returns &amp; Refunds</a>
+            <a href="/help">Help Center &amp; FAQs</a>
           </div>
-          <div className="footer-col">
-            <h4>Help</h4>
-            <a href="/help">Help Center</a>
-            <a href="/returns">Returns</a>
-            <a href="/shipping">Shipping Info</a>
+
+          <div className="footer-links-column">
+            <h4>Sell on Shop Zero</h4>
+            <a href="/login?tab=register">Open Merchant Store</a>
+            <a href="/vendor/kyc">Vendor KYC Verification</a>
+            <a href="/sell">Seller Protection &amp; Escrow</a>
+            <a href="/terms">Terms of Service</a>
             <a href="/privacy">Privacy Policy</a>
           </div>
         </div>
-        <div className="footer-bottom">
-          © {new Date().getFullYear()} Shop Zero Ltd. All rights reserved. · Made with ❤️ in Nigeria
+
+        <div className="footer-bottom-bar">
+          <div className="footer-bottom-content">
+            <p>© {new Date().getFullYear()} Shop Zero Technologies Ltd. All rights reserved.</p>
+            <p className="footer-tagline">Engineered with ❤️ in Lagos, Nigeria · Bank-Grade Security</p>
+          </div>
         </div>
       </footer>
     </>

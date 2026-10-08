@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { SiteHeader } from "../../components/site-header";
+import { IconHeart, IconShield } from "../../components/icons";
 
 interface DealProduct {
   id: string;
@@ -25,36 +26,36 @@ interface DealProduct {
 const deals: DealProduct[] = [
   {
     id: "D-01",
-    title: "Wireless Noise-Cancelling Over-Ear Headphones Pro",
+    title: "Sony WH-1000XM5 Wireless Noise-Cancelling Headphones Pro",
     category: "electronics",
     categoryLabel: "Electronics",
     price: 48900,
     wasPrice: 65000,
     priceStr: "₦48,900",
     wasStr: "₦65,000",
-    rating: "4.7",
+    rating: "4.9",
     reviews: 312,
     discount: "25% OFF",
     discountPct: 25,
-    img: "/products/headphones.jpg",
+    img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80",
     endsIn: "Today",
     sold: 78,
     total: 100,
   },
   {
     id: "D-02",
-    title: "Smart LED TV 43-inch Full HD HDR with Voice Remote",
+    title: "Samsung 43-inch Crystal UHD 4K Smart TV with Voice Remote",
     category: "electronics",
     categoryLabel: "Electronics",
     price: 235000,
     wasPrice: 280000,
     priceStr: "₦235,000",
     wasStr: "₦280,000",
-    rating: "4.5",
+    rating: "4.8",
     reviews: 98,
     discount: "16% OFF",
     discountPct: 16,
-    img: "/products/tv.jpg",
+    img: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&auto=format&fit=crop&q=80",
     endsIn: "Today",
     sold: 42,
     total: 60,
@@ -307,6 +308,7 @@ export default function DealsPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [sortBy, setSortBy] = useState<"discount" | "price-low" | "price-high" | "rating">("discount");
   const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
+  const [wishlistIds, setWishlistIds] = useState<Record<string, boolean>>({});
 
   // End of day countdown
   const endTime = useMemo(() => {
@@ -324,6 +326,10 @@ export default function DealsPage() {
     return items;
   }, [activeTab, sortBy]);
 
+  const toggleWishlist = (id: string) => {
+    setWishlistIds((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
   const handleAddToCart = (id: string) => {
     setAddedItems((prev) => ({ ...prev, [id]: true }));
     setTimeout(() => setAddedItems((prev) => ({ ...prev, [id]: false })), 2000);
@@ -332,43 +338,53 @@ export default function DealsPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main className="search-page-container">
         {/* Hero Banner */}
-        <div className="deals-hero">
-          <div className="deals-hero-inner">
-            <div className="deals-hero-text">
-              <span className="deals-hero-badge">🔥 Limited Time Only</span>
-              <h1>Flash Deals</h1>
-              <p>Massive discounts across all categories. New deals added daily — grab them before they're gone!</p>
+        <div className="search-hero-banner" style={{ background: "radial-gradient(circle at 80% 20%, #991b1b 0%, #450a0a 60%, #090e1a 100%)" }}>
+          <div className="search-query-row">
+            <div>
+              <span className="search-hero-tag">🔥 24-HOUR FLASH BLITZ</span>
+              <h1>Flash Deals of the Day</h1>
+              <p className="search-count-caption">
+                Massive price cuts across top genuine brands. Grab deals before the countdown hits zero!
+              </p>
             </div>
             <Countdown endTime={endTime} />
           </div>
         </div>
 
         {/* Breadcrumb */}
-        <nav className="breadcrumb" aria-label="Breadcrumb" style={{ padding: "0.75rem 1.5rem", maxWidth: "1400px", margin: "0 auto" }}>
+        <nav className="breadcrumb-nav" aria-label="Breadcrumb">
           <a href="/">Home</a>
-          <span>/</span>
+          <span className="breadcrumb-sep">/</span>
           <strong>Flash Deals</strong>
         </nav>
 
-        {/* Category Tabs + Sort */}
-        <div className="deals-controls">
-          <div className="deals-tabs" role="tablist">
-            {CATEGORY_TABS.map((tab) => (
-              <button
-                key={tab.key}
-                role="tab"
-                aria-selected={activeTab === tab.key}
-                className={`deals-tab ${activeTab === tab.key ? "active" : ""}`}
-                onClick={() => setActiveTab(tab.key)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-          <div className="deals-sort">
-            <label htmlFor="deals-sort-select">Sort:</label>
+        {/* Category Tabs */}
+        <div className="subcat-pills-bar">
+          {CATEGORY_TABS.map((tab) => (
+            <button
+              key={tab.key}
+              role="tab"
+              aria-selected={activeTab === tab.key}
+              className={`subcat-pill ${activeTab === tab.key ? "active" : ""}`}
+              onClick={() => setActiveTab(tab.key)}
+              type="button"
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Controls Bar */}
+        <div className="search-controls-bar">
+          <span className="results-badge-text">
+            Showing <strong>{filteredDeals.length}</strong> deals
+            {activeTab !== "all" && ` in ${CATEGORY_TABS.find((t) => t.key === activeTab)?.label}`}
+          </span>
+
+          <div className="sort-select-wrap">
+            <label htmlFor="deals-sort-select">Sort by:</label>
             <select
               id="deals-sort-select"
               value={sortBy}
@@ -382,70 +398,68 @@ export default function DealsPage() {
           </div>
         </div>
 
-        {/* Deal Count */}
-        <div className="deals-count-bar">
-          <span>
-            Showing <strong>{filteredDeals.length}</strong> deals
-            {activeTab !== "all" && ` in ${CATEGORY_TABS.find((t) => t.key === activeTab)?.label}`}
-          </span>
-        </div>
-
         {/* Products Grid */}
         {filteredDeals.length > 0 ? (
-          <div className="deals-grid">
+          <div className="products-modern-grid" style={{ gridTemplateColumns: "repeat(4, 1fr)", marginBottom: "40px" }}>
             {filteredDeals.map((p) => {
               const soldPct = Math.round((p.sold / p.total) * 100);
               const isHot = soldPct >= 75;
               return (
-                <article className="deal-card" key={p.id}>
-                  {/* Discount Badge */}
-                  <div className="deal-image-wrap">
-                    <span className="deal-badge">{p.discount}</span>
-                    {isHot && <span className="deal-hot-badge">🔥 HOT</span>}
+                <article className="luxury-product-card" key={p.id}>
+                  <div className="card-image-box">
+                    <span className="discount-badge-pill">-{p.discount}</span>
+                    <button
+                      className={`wishlist-heart-btn ${wishlistIds[p.id] ? "active" : ""}`}
+                      onClick={() => toggleWishlist(p.id)}
+                      aria-label="Add to wishlist"
+                      type="button"
+                    >
+                      <IconHeart size={18} fill={wishlistIds[p.id] ? "#f43f5e" : "none"} />
+                    </button>
                     <img src={p.img} alt={p.title} loading="lazy" />
+                    {isHot && <span className="item-tag-pill" style={{ background: "#ef4444" }}>🔥 Selling Fast</span>}
+                    <span className="seller-verified-pill">🏷️ {p.categoryLabel}</span>
                   </div>
 
-                  <div className="deal-info">
-                    <span className="deal-cat-tag">{p.categoryLabel}</span>
-                    <h3>{p.title}</h3>
-
-                    <div className="deal-price-row">
-                      <strong className="deal-price">{p.priceStr}</strong>
-                      <del className="deal-was">{p.wasStr}</del>
-                    </div>
-
-                    <div className="deal-rating-row">
+                  <div className="card-content-box">
+                    <div className="rating-pill-row">
                       <StarRating rating={p.rating} />
-                      <span className="rating-num">{p.rating}</span>
-                      <small>({p.reviews.toLocaleString()} reviews)</small>
+                      <span className="rating-score">{p.rating}</span>
+                      <span className="review-count">({p.reviews})</span>
                     </div>
 
-                    {/* Stock progress bar */}
-                    <div className="deal-stock">
-                      <div className="deal-stock-bar">
+                    <h3 className="product-title-text" title={p.title}>
+                      {p.title}
+                    </h3>
+
+                    <div className="price-display-row">
+                      <strong className="sale-price">{p.priceStr}</strong>
+                      <del className="was-price">{p.wasStr}</del>
+                    </div>
+
+                    {/* Stock indicator */}
+                    <div className="stock-level-indicator">
+                      <div className="stock-text-flex">
+                        <span>{isHot ? `🔥 Only ${p.total - p.sold} left!` : `${p.sold} claimed`}</span>
+                        <span>{soldPct}%</span>
+                      </div>
+                      <div className="mini-progress-track">
                         <div
-                          className="deal-stock-fill"
+                          className="mini-progress-bar"
                           style={{
                             width: `${soldPct}%`,
-                            background: soldPct >= 75 ? "var(--clr-accent)" : "var(--clr-primary)",
+                            background: soldPct >= 75 ? "linear-gradient(90deg, #f43f5e, #ef4444)" : undefined,
                           }}
                         />
                       </div>
-                      <span className="deal-stock-label">
-                        {isHot ? `🔥 Only ${p.total - p.sold} left!` : `${p.sold} sold of ${p.total}`}
-                      </span>
                     </div>
 
                     <button
-                      className="deal-cart-btn"
+                      className={`cart-action-btn ${addedItems[p.id] ? "added" : ""}`}
                       onClick={() => handleAddToCart(p.id)}
-                      style={
-                        addedItems[p.id]
-                          ? { background: "#15803d", borderColor: "#15803d" }
-                          : undefined
-                      }
+                      type="button"
                     >
-                      {addedItems[p.id] ? "✓ Added to Cart" : "Add to Cart"}
+                      {addedItems[p.id] ? "✓ Added to Cart!" : "Claim Deal"}
                     </button>
                   </div>
                 </article>
@@ -453,50 +467,73 @@ export default function DealsPage() {
             })}
           </div>
         ) : (
-          <div className="empty-products-state" style={{ margin: "4rem auto" }}>
-            <span className="empty-icon">⚡</span>
-            <h3>No Deals in This Category Right Now</h3>
-            <p>Check back soon — our merchants add new flash deals every day!</p>
-            <button className="primary-btn" onClick={() => setActiveTab("all")}>
+          <div className="search-empty-state">
+            <div className="empty-search-icon">⚡</div>
+            <h2>No Deals in This Category Right Now</h2>
+            <p>Check back soon — our merchants add fresh deals every single day!</p>
+            <button className="empty-home-btn" onClick={() => setActiveTab("all")} type="button">
               View All Deals
             </button>
           </div>
         )}
-
-        {/* Footer */}
-        <footer className="footer" style={{ marginTop: "4rem" }}>
-          <div className="footer-inner">
-            <div className="footer-brand">
-              <a className="logo" href="/">SHOP<span>ZERO</span></a>
-              <p>Nigeria's favourite multi-category marketplace. Big brands, genuine products, and fast delivery — all in one place.</p>
-            </div>
-            <div className="footer-col">
-              <h4>Flash Deals</h4>
-              <a href="/deals">Today's Deals</a>
-              <a href="/c/electronics">Electronics</a>
-              <a href="/c/fashion">Fashion</a>
-              <a href="/c/groceries">Groceries</a>
-            </div>
-            <div className="footer-col">
-              <h4>Account</h4>
-              <a href="/account">My Account</a>
-              <a href="/orders">My Orders</a>
-              <a href="/wishlist">Wishlist</a>
-              <a href="/cart">Cart</a>
-            </div>
-            <div className="footer-col">
-              <h4>Help</h4>
-              <a href="/help">Help Center</a>
-              <a href="/returns">Returns</a>
-              <a href="/shipping">Shipping Info</a>
-              <a href="/privacy">Privacy Policy</a>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            © {new Date().getFullYear()} Shop Zero Ltd. All rights reserved. · Made with ❤️ in Nigeria
-          </div>
-        </footer>
       </main>
+
+      {/* ── Global Luxury Footer ── */}
+      <footer className="luxury-footer">
+        <div className="footer-inner-grid">
+          <div className="footer-brand-column">
+            <div className="brand-logo-text footer-brand-logo">
+              SHOP<span>ZERO</span>
+            </div>
+            <p className="footer-tagline-text">
+              Nigeria&apos;s leading secure marketplace. Discover over 150,000 verified genuine products from vetted merchants with automated escrow protection.
+            </p>
+            <div className="footer-badges-list">
+              <span className="payment-chip">🔒 Escrow Protected</span>
+              <span className="payment-chip">💳 Mastercard</span>
+              <span className="payment-chip">💳 Visa</span>
+              <span className="payment-chip">💳 Verve</span>
+              <span className="payment-chip">⚡ Paystack</span>
+            </div>
+          </div>
+
+          <div className="footer-links-column">
+            <h4>Shop Categories</h4>
+            <a href="/c/electronics">Electronics &amp; Gadgets</a>
+            <a href="/c/phones-tablets">Phones &amp; Tablets</a>
+            <a href="/c/fashion">Fashion &amp; Apparel</a>
+            <a href="/c/home-living">Home &amp; Kitchen</a>
+            <a href="/c/groceries">Groceries &amp; Foodstuff</a>
+            <a href="/deals">Flash Sale Deals</a>
+          </div>
+
+          <div className="footer-links-column">
+            <h4>Customer Service</h4>
+            <a href="/account">My Account</a>
+            <a href="/orders">Track Your Order</a>
+            <a href="/wishlist">Saved Wishlist</a>
+            <a href="/cart">Shopping Cart</a>
+            <a href="/returns">Returns &amp; Refunds</a>
+            <a href="/help">Help Center &amp; FAQs</a>
+          </div>
+
+          <div className="footer-links-column">
+            <h4>Sell on Shop Zero</h4>
+            <a href="/login?tab=register">Open Merchant Store</a>
+            <a href="/vendor/kyc">Vendor KYC Verification</a>
+            <a href="/sell">Seller Protection &amp; Escrow</a>
+            <a href="/terms">Terms of Service</a>
+            <a href="/privacy">Privacy Policy</a>
+          </div>
+        </div>
+
+        <div className="footer-bottom-bar">
+          <div className="footer-bottom-content">
+            <p>© {new Date().getFullYear()} Shop Zero Technologies Ltd. All rights reserved.</p>
+            <p className="footer-tagline">Engineered with ❤️ in Lagos, Nigeria · Bank-Grade Security</p>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

@@ -199,7 +199,8 @@ export function SiteHeader() {
           <div className="search-col-wrapper">
             <form
               className={`modern-search-bar ${isSearchFocused ? "focused" : ""}`}
-              action="/c/electronics"
+              action="/search"
+              method="GET"
               role="search"
             >
               <div className="search-icon-prefix">
@@ -233,16 +234,110 @@ export function SiteHeader() {
             {/* Quick search suggestions popup */}
             {isSearchFocused && (
               <div className="search-suggestions-dropdown">
-                <div className="suggestions-header">
-                  <span>🔥 POPULAR SEARCHES</span>
-                </div>
-                <div className="suggestions-tags-row">
-                  <a href="/c/phones-tablets" className="suggestion-pill">iPhone 15 Pro</a>
-                  <a href="/c/electronics" className="suggestion-pill">Sony Headphones</a>
-                  <a href="/c/home-living" className="suggestion-pill">Digital Air Fryer</a>
-                  <a href="/c/fashion" className="suggestion-pill">Nike Sneakers</a>
-                  <a href="/c/beauty-personal-care" className="suggestion-pill">Lumina Perfume</a>
-                </div>
+                {query.trim() ? (
+                  <div className="live-search-results">
+                    <div className="suggestions-header">
+                      <span>MATCHING PRODUCTS</span>
+                    </div>
+                    <div className="live-suggestions-list">
+                      {[
+                        {
+                          id: "SP-01",
+                          title: "Apple iPhone 15 Pro Max 256GB - Natural Titanium",
+                          category: "Phones & Tablets",
+                          price: "₦1,850,000",
+                          img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=120&auto=format&fit=crop&q=80",
+                        },
+                        {
+                          id: "SP-02",
+                          title: "Sony WH-1000XM5 Wireless Headphones Pro",
+                          category: "Electronics",
+                          price: "₦48,900",
+                          img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=120&auto=format&fit=crop&q=80",
+                        },
+                        {
+                          id: "SP-04",
+                          title: "Samsung Galaxy S24 Ultra 512GB - Titanium Black",
+                          category: "Phones & Tablets",
+                          price: "₦1,720,000",
+                          img: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=120&auto=format&fit=crop&q=80",
+                        },
+                        {
+                          id: "SP-06",
+                          title: "Samsung 43-inch Crystal UHD 4K Smart TV",
+                          category: "Electronics",
+                          price: "₦235,000",
+                          img: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=120&auto=format&fit=crop&q=80",
+                        },
+                        {
+                          id: "SP-08",
+                          title: "Digital Touchscreen Air Fryer 5.5L 8-Presets",
+                          category: "Home & Living",
+                          price: "₦59,500",
+                          img: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=120&auto=format&fit=crop&q=80",
+                        },
+                        {
+                          id: "SP-10",
+                          title: "Men's Pro Breathable Cushion Running Sneakers",
+                          category: "Fashion",
+                          price: "₦32,990",
+                          img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=120&auto=format&fit=crop&q=80",
+                        },
+                        {
+                          id: "SP-12",
+                          title: "Lumina Noir Luxury Unisex Eau de Parfum 100ml",
+                          category: "Beauty",
+                          price: "₦19,900",
+                          img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=120&auto=format&fit=crop&q=80",
+                        },
+                      ]
+                        .filter(
+                          (item) =>
+                            item.title.toLowerCase().includes(query.toLowerCase()) ||
+                            item.category.toLowerCase().includes(query.toLowerCase())
+                        )
+                        .slice(0, 4)
+                        .map((item) => (
+                          <a
+                            key={item.id}
+                            href={`/search?q=${encodeURIComponent(item.title)}`}
+                            className="live-suggestion-item"
+                          >
+                            <img src={item.img} alt={item.title} className="suggestion-thumb" />
+                            <div className="suggestion-item-info">
+                              <span className="suggestion-item-title">{item.title}</span>
+                              <div className="suggestion-item-meta">
+                                <span className="suggestion-item-price">{item.price}</span>
+                                <span className="suggestion-item-cat">{item.category}</span>
+                              </div>
+                            </div>
+                            <span className="suggestion-arrow">→</span>
+                          </a>
+                        ))}
+                    </div>
+                    <a
+                      href={`/search?q=${encodeURIComponent(query)}`}
+                      className="view-all-search-link"
+                    >
+                      <span>🔍 View all results for &ldquo;{query}&rdquo;</span>
+                      <strong>→</strong>
+                    </a>
+                  </div>
+                ) : (
+                  <>
+                    <div className="suggestions-header">
+                      <span>🔥 POPULAR SEARCHES</span>
+                    </div>
+                    <div className="suggestions-tags-row">
+                      <a href="/search?q=iPhone" className="suggestion-pill">iPhone 15 Pro</a>
+                      <a href="/search?q=Sony" className="suggestion-pill">Sony Headphones</a>
+                      <a href="/search?q=Air+Fryer" className="suggestion-pill">Digital Air Fryer</a>
+                      <a href="/search?q=Sneakers" className="suggestion-pill">Nike Sneakers</a>
+                      <a href="/search?q=Perfume" className="suggestion-pill">Lumina Perfume</a>
+                      <a href="/search?q=Smart+TV" className="suggestion-pill">Smart LED TV</a>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>
