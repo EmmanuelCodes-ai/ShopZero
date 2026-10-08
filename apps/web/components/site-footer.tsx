@@ -5,7 +5,16 @@ export function SiteFooter() {
         {/* Brand Column */}
         <div className="footer-brand-column">
           <a href="/" className="footer-brand-logo">
-            Shop<span>Zero</span>
+            <span style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "22px", letterSpacing: "-0.8px", color: "#ffffff" }}>
+              ShOpZer
+              <span style={{ display: "inline-flex", alignItems: "center", marginLeft: "1px", filter: "drop-shadow(0 0 6px rgba(255,89,0,0.6))" }}>
+                <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 5h2.5l2.8 11.2a2 2 0 0 0 1.94 1.5h8.52a2 2 0 0 0 1.94-1.52L23 9H8" stroke="#ff5900" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="11.5" cy="22.5" r="1.5" fill="#ff5900" />
+                  <circle cx="20.5" cy="22.5" r="1.5" fill="#ff5900" />
+                </svg>
+              </span>
+            </span>
           </a>
           <p className="footer-tagline-text">
             Nigeria&apos;s most trusted escrow marketplace. Discover over

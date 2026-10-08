@@ -187,11 +187,29 @@ export function SiteHeader() {
       <div className="header-sticky-wrapper" ref={menuRef}>
         <header className="header-main-surface">
           <div className="header-left-col">
-            <a className="brand-logo" href="/" aria-label="Shop Zero Home">
-              <div className="brand-logo-icon">SZ</div>
-              <div className="brand-logo-text">
-                SHOP<span>ZERO</span>
-              </div>
+            <a className="brand-logo" href="/" aria-label="ShOpZerO Home">
+              <span className="brand-logo-wordmark">
+                ShOpZer
+                <span className="brand-logo-cart-o" aria-hidden="true">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4 5h2.5l2.8 11.2a2 2 0 0 0 1.94 1.5h8.52a2 2 0 0 0 1.94-1.52L23 9H8"
+                      stroke="#ff5900"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <circle cx="11.5" cy="22.5" r="1.5" fill="#ff5900" />
+                    <circle cx="20.5" cy="22.5" r="1.5" fill="#ff5900" />
+                  </svg>
+                </span>
+              </span>
             </a>
           </div>
 
