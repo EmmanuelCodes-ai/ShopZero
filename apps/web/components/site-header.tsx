@@ -190,7 +190,7 @@ export function SiteHeader() {
             <a className="brand-logo" href="/" aria-label="ShOpZerO Home">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/logo.jpg"
+                src="/logo-light.png"
                 alt="ShOpZerO"
                 className="brand-logo-img"
               />
