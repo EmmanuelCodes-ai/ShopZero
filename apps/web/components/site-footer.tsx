@@ -52,6 +52,7 @@ export function SiteFooter() {
           <a href="/sell">Seller Protection &amp; Escrow</a>
           <a href="/terms">Terms of Service</a>
           <a href="/privacy">Privacy Policy</a>
+          <a href="/data-deletion">Data Deletion</a>
         </div>
       </div>
 
