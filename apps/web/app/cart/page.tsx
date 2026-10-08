@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { SiteHeader } from "../../components/site-header";
+import { SiteFooter } from "../../components/site-footer";
 import { useAuth } from "../../context/auth-context";
 import { IconShield, IconTruck, IconReturn, IconBadge } from "../../components/icons";
 
@@ -400,58 +401,7 @@ export default function CartPage() {
         )}
       </main>
 
-      {/* ── Luxury Footer ── */}
-      <footer className="luxury-footer">
-        <div className="footer-inner-grid">
-          <div className="footer-brand-column">
-            <a href="/" className="footer-brand-logo">
-              Shop<span>Zero</span>
-            </a>
-            <p className="footer-tagline-text">
-              Nigeria&apos;s most trusted escrow marketplace. Every order is
-              protected — pay only when you&apos;re satisfied.
-            </p>
-            <div className="footer-badges-list">
-              <span className="payment-chip">🔒 Escrow</span>
-              <span className="payment-chip">📦 Fast Delivery</span>
-              <span className="payment-chip">↩ Easy Returns</span>
-            </div>
-          </div>
-
-          <div className="footer-links-column">
-            <h4>Shop</h4>
-            <a href="/c/electronics">Electronics</a>
-            <a href="/c/fashion">Fashion</a>
-            <a href="/c/home-kitchen">Home &amp; Kitchen</a>
-            <a href="/deals">Today&apos;s Deals</a>
-            <a href="/search">Browse All</a>
-          </div>
-
-          <div className="footer-links-column">
-            <h4>Account</h4>
-            <a href="/account">My Profile</a>
-            <a href="/orders">My Orders</a>
-            <a href="/wishlist">Wishlist</a>
-            <a href="/cart">Shopping Cart</a>
-          </div>
-
-          <div className="footer-links-column">
-            <h4>Help</h4>
-            <a href="#">Buyer Protection</a>
-            <a href="#">How Escrow Works</a>
-            <a href="#">Track My Order</a>
-            <a href="#">Return Policy</a>
-            <a href="#">Contact Support</a>
-          </div>
-        </div>
-
-        <div className="footer-bottom-bar">
-          <div className="footer-bottom-content">
-            <span>© {new Date().getFullYear()} ShopZero Technologies Ltd. All rights reserved.</span>
-            <span className="footer-tagline">🔒 256-bit SSL · Escrow Protected · CBN Compliant</span>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }
