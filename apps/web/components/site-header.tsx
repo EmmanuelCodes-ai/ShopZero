@@ -188,39 +188,12 @@ export function SiteHeader() {
         <header className="header-main-surface">
           <div className="header-left-col">
             <a className="brand-logo" href="/" aria-label="ShOpZerO Home">
-              <span className="brand-logo-wordmark">
-                ShOpZer
-                <span className="brand-logo-cart-o" aria-hidden="true">
-                  {/* Cart icon sized to match cap-height of the font */}
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 36 36"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{ display: "block" }}
-                  >
-                    {/* Handle */}
-                    <path
-                      d="M4 6h3l1.5 4"
-                      stroke="#ff5900"
-                      strokeWidth="2.2"
-                      strokeLinecap="round"
-                    />
-                    {/* Cart body — arc shaped like an O */}
-                    <path
-                      d="M8.5 10h20l-2.8 11a2 2 0 0 1-1.94 1.5H13.24a2 2 0 0 1-1.94-1.52L8.5 10Z"
-                      stroke="#ff5900"
-                      strokeWidth="2.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    {/* Wheels */}
-                    <circle cx="14" cy="27.5" r="2" fill="#ff5900" />
-                    <circle cx="24" cy="27.5" r="2" fill="#ff5900" />
-                  </svg>
-                </span>
-              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo.jpg"
+                alt="ShOpZerO"
+                className="brand-logo-img"
+              />
             </a>
           </div>
 

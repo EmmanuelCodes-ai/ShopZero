@@ -282,18 +282,24 @@ img, svg {
   line-height: 1;
 }
 
-.brand-logo-cart-o {
-  display: inline-flex;
-  align-items: flex-end;      /* anchor to text baseline */
-  margin-left: 0px;
-  margin-bottom: -2px;        /* drop slightly to match letter baseline */
-  filter: drop-shadow(0 0 7px rgba(255, 89, 0, 0.6));
-  transition: filter 0.3s ease, transform 0.3s ease;
+.brand-logo-img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.2s ease, transform 0.25s ease;
 }
 
-.brand-logo:hover .brand-logo-cart-o {
-  filter: drop-shadow(0 0 14px rgba(255, 89, 0, 0.95));
-  transform: scale(1.08);
+.brand-logo:hover .brand-logo-img {
+  opacity: 0.88;
+  transform: scale(1.03);
+}
+
+.footer-logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 /* Modern Search Bar */
