@@ -402,53 +402,54 @@ export default function CartPage() {
 
       {/* ── Luxury Footer ── */}
       <footer className="luxury-footer">
-        <div className="footer-inner">
-          <div className="footer-brand-col">
-            <a href="/" className="footer-logo-link">
-              <span className="footer-logo-text">ShopZero</span>
+        <div className="footer-inner-grid">
+          <div className="footer-brand-column">
+            <a href="/" className="footer-brand-logo">
+              Shop<span>Zero</span>
             </a>
-            <p className="footer-tagline">
+            <p className="footer-tagline-text">
               Nigeria&apos;s most trusted escrow marketplace. Every order is
               protected — pay only when you&apos;re satisfied.
             </p>
-            <div className="footer-social-row">
-              <a href="#" aria-label="Instagram" className="footer-social-btn">📸</a>
-              <a href="#" aria-label="Twitter" className="footer-social-btn">🐦</a>
-              <a href="#" aria-label="Facebook" className="footer-social-btn">👍</a>
-              <a href="#" aria-label="WhatsApp" className="footer-social-btn">💬</a>
+            <div className="footer-badges-list">
+              <span className="payment-chip">🔒 Escrow</span>
+              <span className="payment-chip">📦 Fast Delivery</span>
+              <span className="payment-chip">↩ Easy Returns</span>
             </div>
           </div>
 
-          <div className="footer-links-group">
-            <h4 className="footer-group-title">Shop</h4>
-            <a href="/c/electronics" className="footer-link">Electronics</a>
-            <a href="/c/fashion" className="footer-link">Fashion</a>
-            <a href="/c/home-kitchen" className="footer-link">Home &amp; Kitchen</a>
-            <a href="/deals" className="footer-link">Today&apos;s Deals</a>
-            <a href="/search" className="footer-link">Browse All</a>
+          <div className="footer-links-column">
+            <h4>Shop</h4>
+            <a href="/c/electronics">Electronics</a>
+            <a href="/c/fashion">Fashion</a>
+            <a href="/c/home-kitchen">Home &amp; Kitchen</a>
+            <a href="/deals">Today&apos;s Deals</a>
+            <a href="/search">Browse All</a>
           </div>
 
-          <div className="footer-links-group">
-            <h4 className="footer-group-title">Account</h4>
-            <a href="/account" className="footer-link">My Profile</a>
-            <a href="/orders" className="footer-link">My Orders</a>
-            <a href="/wishlist" className="footer-link">Wishlist</a>
-            <a href="/cart" className="footer-link">Shopping Cart</a>
+          <div className="footer-links-column">
+            <h4>Account</h4>
+            <a href="/account">My Profile</a>
+            <a href="/orders">My Orders</a>
+            <a href="/wishlist">Wishlist</a>
+            <a href="/cart">Shopping Cart</a>
           </div>
 
-          <div className="footer-links-group">
-            <h4 className="footer-group-title">Help</h4>
-            <a href="#" className="footer-link">Buyer Protection</a>
-            <a href="#" className="footer-link">How Escrow Works</a>
-            <a href="#" className="footer-link">Track My Order</a>
-            <a href="#" className="footer-link">Return Policy</a>
-            <a href="#" className="footer-link">Contact Support</a>
+          <div className="footer-links-column">
+            <h4>Help</h4>
+            <a href="#">Buyer Protection</a>
+            <a href="#">How Escrow Works</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Return Policy</a>
+            <a href="#">Contact Support</a>
           </div>
         </div>
 
         <div className="footer-bottom-bar">
-          <span>© {new Date().getFullYear()} ShopZero Technologies Ltd. All rights reserved.</span>
-          <span className="footer-bottom-trust">🔒 256-bit SSL · Escrow Protected · CBN Compliant</span>
+          <div className="footer-bottom-content">
+            <span>© {new Date().getFullYear()} ShopZero Technologies Ltd. All rights reserved.</span>
+            <span className="footer-tagline">🔒 256-bit SSL · Escrow Protected · CBN Compliant</span>
+          </div>
         </div>
       </footer>
     </>
