@@ -284,14 +284,16 @@ img, svg {
 
 .brand-logo-cart-o {
   display: inline-flex;
-  align-items: center;
-  margin-left: 1px;
-  filter: drop-shadow(0 0 6px rgba(255, 89, 0, 0.5));
-  transition: filter 0.25s ease;
+  align-items: flex-end;      /* anchor to text baseline */
+  margin-left: 0px;
+  margin-bottom: -2px;        /* drop slightly to match letter baseline */
+  filter: drop-shadow(0 0 7px rgba(255, 89, 0, 0.6));
+  transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .brand-logo:hover .brand-logo-cart-o {
-  filter: drop-shadow(0 0 10px rgba(255, 89, 0, 0.85));
+  filter: drop-shadow(0 0 14px rgba(255, 89, 0, 0.95));
+  transform: scale(1.08);
 }
 
 /* Modern Search Bar */

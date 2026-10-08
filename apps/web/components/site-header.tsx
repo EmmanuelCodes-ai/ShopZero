@@ -191,22 +191,33 @@ export function SiteHeader() {
               <span className="brand-logo-wordmark">
                 ShOpZer
                 <span className="brand-logo-cart-o" aria-hidden="true">
+                  {/* Cart icon sized to match cap-height of the font */}
                   <svg
-                    width="28"
-                    height="28"
-                    viewBox="0 0 28 28"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 36 36"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    style={{ display: "block" }}
                   >
+                    {/* Handle */}
                     <path
-                      d="M4 5h2.5l2.8 11.2a2 2 0 0 0 1.94 1.5h8.52a2 2 0 0 0 1.94-1.52L23 9H8"
+                      d="M4 6h3l1.5 4"
                       stroke="#ff5900"
-                      strokeWidth="2"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                    />
+                    {/* Cart body — arc shaped like an O */}
+                    <path
+                      d="M8.5 10h20l-2.8 11a2 2 0 0 1-1.94 1.5H13.24a2 2 0 0 1-1.94-1.52L8.5 10Z"
+                      stroke="#ff5900"
+                      strokeWidth="2.2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
-                    <circle cx="11.5" cy="22.5" r="1.5" fill="#ff5900" />
-                    <circle cx="20.5" cy="22.5" r="1.5" fill="#ff5900" />
+                    {/* Wheels */}
+                    <circle cx="14" cy="27.5" r="2" fill="#ff5900" />
+                    <circle cx="24" cy="27.5" r="2" fill="#ff5900" />
                   </svg>
                 </span>
               </span>

@@ -5,13 +5,14 @@ export function SiteFooter() {
         {/* Brand Column */}
         <div className="footer-brand-column">
           <a href="/" className="footer-brand-logo">
-            <span style={{ display: "inline-flex", alignItems: "center", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "22px", letterSpacing: "-0.8px", color: "#ffffff" }}>
+            <span style={{ display: "inline-flex", alignItems: "flex-end", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "22px", letterSpacing: "-0.8px", color: "#ffffff" }}>
               ShOpZer
-              <span style={{ display: "inline-flex", alignItems: "center", marginLeft: "1px", filter: "drop-shadow(0 0 6px rgba(255,89,0,0.6))" }}>
-                <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 5h2.5l2.8 11.2a2 2 0 0 0 1.94 1.5h8.52a2 2 0 0 0 1.94-1.52L23 9H8" stroke="#ff5900" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <circle cx="11.5" cy="22.5" r="1.5" fill="#ff5900" />
-                  <circle cx="20.5" cy="22.5" r="1.5" fill="#ff5900" />
+              <span style={{ display: "inline-flex", alignItems: "flex-end", marginBottom: "-2px", filter: "drop-shadow(0 0 7px rgba(255,89,0,0.6))" }}>
+                <svg width="26" height="26" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+                  <path d="M4 6h3l1.5 4" stroke="#ff5900" strokeWidth="2.2" strokeLinecap="round" />
+                  <path d="M8.5 10h20l-2.8 11a2 2 0 0 1-1.94 1.5H13.24a2 2 0 0 1-1.94-1.52L8.5 10Z" stroke="#ff5900" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="14" cy="27.5" r="2" fill="#ff5900" />
+                  <circle cx="24" cy="27.5" r="2" fill="#ff5900" />
                 </svg>
               </span>
             </span>
