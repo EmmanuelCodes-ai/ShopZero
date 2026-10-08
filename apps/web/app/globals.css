@@ -2309,8 +2309,22 @@ img, svg {
 }
 
 .auth-brand-logo {
-  font-size: 32px;
-  margin-bottom: 16px;
+  display: inline-block;
+  margin-bottom: 24px;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.auth-brand-logo:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.auth-logo-img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .auth-benefits-col h1 {

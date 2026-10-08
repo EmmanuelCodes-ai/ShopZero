@@ -346,8 +346,13 @@ export default function LoginPage() {
         <div className="auth-wrapper">
           {/* Left Column: Brand Benefits */}
           <div className="auth-benefits-col">
-            <a className="logo auth-brand-logo" href="/">
-              SHOP<span>ZERO</span>
+            <a className="auth-brand-logo" href="/" aria-label="ShOpZerO Home">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-light.png"
+                alt="ShOpZerO"
+                className="auth-logo-img"
+              />
             </a>
             <h1>Welcome to smarter online shopping in Nigeria.</h1>
             <p className="auth-subtext">

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SiteHeader } from "../../components/site-header";
+import { SiteFooter } from "../../components/site-footer";
 import { useAuth } from "../../context/auth-context";
 import {
   IconUser,
@@ -550,38 +551,7 @@ export default function AccountPage() {
       </main>
 
       {/* Footer */}
-      <footer className="footer">
-        <div className="footer-inner">
-          <div className="footer-brand">
-            <a className="logo" href="/">SHOP<span>ZERO</span></a>
-            <p>Nigeria's favourite multi-category marketplace. Big brands, genuine products, and fast delivery — all in one place.</p>
-          </div>
-          <div className="footer-col">
-            <h4>Shop</h4>
-            <a href="/c/electronics">Electronics</a>
-            <a href="/c/fashion">Fashion</a>
-            <a href="/c/home-living">Home &amp; Living</a>
-            <a href="/c/groceries">Groceries</a>
-          </div>
-          <div className="footer-col">
-            <h4>Account</h4>
-            <a href="/account">My Account</a>
-            <a href="/orders">My Orders</a>
-            <a href="/wishlist">Wishlist</a>
-            <a href="/cart">Cart</a>
-          </div>
-          <div className="footer-col">
-            <h4>Help</h4>
-            <a href="/help">Help Center</a>
-            <a href="/returns">Returns</a>
-            <a href="/shipping">Shipping Info</a>
-            <a href="/privacy">Privacy Policy</a>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          © {new Date().getFullYear()} Shop Zero Ltd. All rights reserved. · Made with ❤️ in Nigeria
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

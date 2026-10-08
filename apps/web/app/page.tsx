@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { SiteHeader } from "../components/site-header";
+import { SiteFooter } from "../components/site-footer";
 import {
   IconPhone,
   IconShirt,
@@ -627,60 +628,7 @@ export default function HomePage() {
       </main>
 
       {/* ── Luxury Marketplace Footer ── */}
-      <footer className="luxury-marketplace-footer">
-        <div className="footer-top-grid">
-          <div className="footer-brand-column">
-            <a className="footer-brand-logo" href="/">
-              SHOP<span>ZERO</span>
-            </a>
-            <p className="footer-mission-text">
-              Nigeria&apos;s leading multi-category marketplace. Verified genuine products, automated buyer escrow, and express doorstep delivery across all 36 states.
-            </p>
-            <div className="footer-payment-methods">
-              <span className="payment-chip">💳 Mastercard</span>
-              <span className="payment-chip">💳 Visa</span>
-              <span className="payment-chip">💳 Verve</span>
-              <span className="payment-chip">⚡ Paystack</span>
-            </div>
-          </div>
-
-          <div className="footer-links-column">
-            <h4>Shop Categories</h4>
-            <a href="/c/electronics">Electronics &amp; Gadgets</a>
-            <a href="/c/phones-tablets">Phones &amp; Tablets</a>
-            <a href="/c/fashion">Fashion &amp; Apparel</a>
-            <a href="/c/home-living">Home &amp; Kitchen</a>
-            <a href="/c/groceries">Groceries &amp; Foodstuff</a>
-            <a href="/deals">Flash Sale Deals</a>
-          </div>
-
-          <div className="footer-links-column">
-            <h4>Customer Service</h4>
-            <a href="/account">My Account</a>
-            <a href="/orders">Track Your Order</a>
-            <a href="/wishlist">Saved Wishlist</a>
-            <a href="/cart">Shopping Cart</a>
-            <a href="/returns">Returns &amp; Refunds</a>
-            <a href="/help">Help Center &amp; FAQs</a>
-          </div>
-
-          <div className="footer-links-column">
-            <h4>Sell on Shop Zero</h4>
-            <a href="/login?tab=register">Open Merchant Store</a>
-            <a href="/vendor/kyc">Vendor KYC Verification</a>
-            <a href="/sell">Seller Protection &amp; Escrow</a>
-            <a href="/terms">Terms of Service</a>
-            <a href="/privacy">Privacy Policy</a>
-          </div>
-        </div>
-
-        <div className="footer-bottom-bar">
-          <div className="footer-bottom-content">
-            <p>© {new Date().getFullYear()} Shop Zero Technologies Ltd. All rights reserved.</p>
-            <p className="footer-tagline">Engineered with ❤️ in Lagos, Nigeria · Bank-Grade Security</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }
