@@ -202,16 +202,21 @@ export function SiteHeader() {
               action="/search"
               method="GET"
               role="search"
+              onClick={() => {
+                const el = document.getElementById("header-search-input");
+                if (el) el.focus();
+              }}
             >
               <div className="search-icon-prefix">
                 <IconSearch size={18} />
               </div>
               <input
+                id="header-search-input"
                 name="q"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
-                onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+                onBlur={() => setTimeout(() => setIsSearchFocused(false), 250)}
                 placeholder="Search over 150,000 genuine products, brands &amp; stores…"
                 aria-label="Search Shop Zero"
                 autoComplete="off"
@@ -220,7 +225,10 @@ export function SiteHeader() {
                 <button
                   type="button"
                   className="search-clear-btn"
-                  onClick={() => setQuery("")}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setQuery("");
+                  }}
                   aria-label="Clear search"
                 >
                   ✕

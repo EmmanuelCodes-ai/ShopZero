@@ -547,10 +547,13 @@ function SearchResultsContent() {
                     </button>
                     <img src={p.img} alt={p.title} loading="lazy" />
                     {p.tag && <span className="item-tag-pill">{p.tag}</span>}
-                    <span className="seller-verified-pill">🛡️ {p.seller}</span>
                   </div>
 
                   <div className="card-content-box">
+                    <div className="card-merchant-row">
+                      <span className="seller-name-tag">🛡️ {p.seller}</span>
+                    </div>
+
                     <div className="rating-pill-row">
                       <StarRating rating={p.rating} />
                       <span className="rating-score">{p.rating}</span>

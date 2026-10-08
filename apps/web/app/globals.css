@@ -157,7 +157,7 @@ img, svg {
   flex: 1;
   overflow: hidden;
   white-space: nowrap;
-  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  mask-image: linear-gradient(to right, black 85%, transparent 100%);
 }
 
 .marquee-content {
@@ -1701,6 +1701,21 @@ img, svg {
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+
+.card-merchant-row {
+  margin-bottom: 6px;
+}
+
+.seller-name-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .rating-pill-row {
@@ -4965,7 +4980,7 @@ img, svg {
 
 .search-products-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
 }
 
@@ -5057,17 +5072,137 @@ img, svg {
   .search-sidebar-card {
     position: static;
   }
-  .search-products-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @media (max-width: 640px) {
-  .search-products-grid {
-    grid-template-columns: 1fr;
-  }
   .search-query-row {
     flex-direction: column;
     align-items: flex-start;
   }
 }
+
+/* ============================================================
+   GLOBAL LUXURY FOOTER STYLES
+   ============================================================ */
+.luxury-footer {
+  background: #090e1a;
+  color: #94a3b8;
+  padding: 64px 24px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 64px;
+}
+
+.footer-inner-grid {
+  max-width: 1320px;
+  margin: 0 auto 48px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+}
+
+.footer-brand-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-brand-logo {
+  color: #ffffff !important;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.footer-brand-logo span {
+  color: var(--orange-primary);
+}
+
+.footer-tagline-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #94a3b8;
+  max-width: 360px;
+}
+
+.footer-badges-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.payment-chip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #e2e8f0;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+}
+
+.footer-links-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links-column h4 {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.footer-links-column a {
+  font-size: 13px;
+  color: #94a3b8;
+  transition: all var(--transition-fast);
+}
+
+.footer-links-column a:hover {
+  color: #ffffff;
+  padding-left: 4px;
+}
+
+.footer-bottom-bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 24px;
+}
+
+.footer-bottom-content {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.footer-tagline {
+  color: #94a3b8;
+}
+
+@media (max-width: 900px) {
+  .footer-inner-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-inner-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
