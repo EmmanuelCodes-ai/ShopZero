@@ -296,10 +296,22 @@ img, svg {
 }
 
 .footer-logo-img {
-  height: 36px;
+  height: 48px;
   width: auto;
   object-fit: contain;
   display: block;
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+
+.footer-brand-logo:hover .footer-logo-img {
+  opacity: 0.9;
+  transform: scale(1.03);
+}
+
+@media (min-width: 1024px) {
+  .footer-logo-img {
+    height: 52px;
+  }
 }
 
 /* Modern Search Bar */

@@ -4,9 +4,9 @@ export function SiteFooter() {
       <div className="footer-inner-grid">
         {/* Brand Column */}
         <div className="footer-brand-column">
-          <a href="/" className="footer-brand-logo">
+          <a href="/" className="footer-brand-logo" aria-label="ShOpZerO Home">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.jpg" alt="ShOpZerO" className="footer-logo-img" />
+            <img src="/logo-dark.png" alt="ShOpZerO" className="footer-logo-img" />
           </a>
           <p className="footer-tagline-text">
             Nigeria&apos;s most trusted escrow marketplace. Discover over
